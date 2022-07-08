@@ -1,4 +1,7 @@
-
+/**
+ * A simple class to represent integer 3x3 matrices
+ * requires iVec3
+ */
 class iMat3 {
   int[][] a;
   int unique_code;

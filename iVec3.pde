@@ -1,4 +1,6 @@
-
+/**
+ * A simple class to represent 3-component integer vectors
+ */
 class iVec3 {
   int x, y, z;
   iVec3() {
@@ -41,6 +43,12 @@ class iVec3 {
   @Override
   public boolean equals(Object obj) {
     return x == ((iVec3)obj).x && y ==((iVec3)obj).y && z == ((iVec3)obj).z;
+  }
+  // note: hashCode() and euqals() may not agree for large corrdinates (diff>=1024)
+  // HashSet calls equals() though, so it shouldn't be a problem in this project
+  @Override
+  public int hashCode() {
+    return (x<<20)+(y<<10)+z;
   }
   void print_nice() {
     println("[ " + x + ", " + y + ", " + z + " ]");
