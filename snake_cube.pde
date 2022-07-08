@@ -20,8 +20,8 @@ void draw() {
   randomSeed(keko);
   directionalLight(51, 102, 126, -0.5, 1.0, 0.3);
   directionalLight(255, 230, 200, 0.6, -1.0, -0.14);
-  ambientLight(40, 40, 40);
-  mySnake.draw_3D(30);
+  ambientLight(55, 55, 55);
+  mySnake.draw_3D(30, -1);
   noFill();
   //stroke(100);box(width);
 }
@@ -103,15 +103,16 @@ class Snake {
     return found;
   }
   
-  void draw_3D(float r) {
+  void draw_3D(float r, int segments) {
     int[] config = new int[lengths.length - 1];
     for(int i = 0; i < config.length; i++) {
       config[i] = (i%2)*2;
       config[i] = (int)random(0, 4);
     }
     iVec3[] vv = build_3D_structure(config);
+    int segs = segments<0?vv.length:segments;
     boolean[] red = find_intersections(vv);
-    for(int i = 0; i < vv.length; i++) {
+    for(int i = 0; i < segs; i++) {
       pushMatrix();
       PVector p = new PVector(vv[i].x, vv[i].y, vv[i].z);
       if(i%2==0) fill(150, 103, 53); else fill(245, 221, 176);
@@ -122,6 +123,30 @@ class Snake {
       box(r*(red[i]?1.1:1.0));
       popMatrix();
     }
+    hint(DISABLE_DEPTH_TEST);
+    strokeWeight(2);
+    beginShape();
+    noFill();
+    stroke(100, 255, 70);
+    for(int i = 0; i < segs; i++) {
+      PVector p = new PVector(vv[i].x, vv[i].y, vv[i].z);
+      p.mult(r);
+      vertex(p.x, p.y, p.z);
+    }
+    endShape();
+    noStroke();
+    noLights();
+    fill(255, 20, 20);
+    for(int i = 0; i < segs; i++) {
+      if(red[i]) {
+        PVector p = new PVector(vv[i].x, vv[i].y, vv[i].z);
+        p.mult(r);
+        pushMatrix(); translate(p.x, p.y, p.z);
+        sphere(r*0.2);
+        popMatrix();
+      }
+    }
+    hint(ENABLE_DEPTH_TEST);
   }
   
   void draw_3D_debug(float r) {
