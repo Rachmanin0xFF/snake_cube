@@ -159,7 +159,7 @@ class Snake {
     hint(DISABLE_DEPTH_TEST);
     strokeWeight(2);
     beginShape();
-    noFill(); stroke(100, 255, 70);
+    noFill(); stroke(100, 255, 70, 100);
     for(int i = 0; i < segs; i++) {
       PVector p = new PVector(vv[i].x, vv[i].y, vv[i].z);
       p.mult(r);
@@ -169,7 +169,7 @@ class Snake {
     
     // draw spheres to mark intersections
     noStroke(); noLights();
-    fill(255, 20, 20);
+    fill(255, 20, 20, 100);
     for(int i = 0; i < segs; i++) {
       if(red[i]) {
         PVector p = new PVector(vv[i].x, vv[i].y, vv[i].z);
